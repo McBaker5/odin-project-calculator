@@ -1,0 +1,22 @@
+* {
+    border-style: solid;
+}
+
+.calculator {
+    height: 800px;
+    width: 500px;
+}
+
+.numbers {
+    display: flex;;
+}
+
+.numbers * {
+    display: table-cell;
+    height: 50px;
+    width: 50px;
+    background-color: pink;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+}
