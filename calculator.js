@@ -1,7 +1,8 @@
 let displayValue = 0;
 let term1 = 0;
-let term2 = 0;
+let term2 = null;
 let operator = '';
+let afterAnswer = false;
 
 const display = document.querySelector('.display');
 const clearButton = document.getElementById('clear');
@@ -34,7 +35,7 @@ const Divide = (a, b) => {
     if (b === 0 && a != 0) {
         return 'ERROR: CANNOT DIVIDE BY ZERO';
     }
-    return a / b;
+    return (Math.round((a / b) * 100))/100;
 }
 
 const Operate = (operator, num1, num2) => {
@@ -45,23 +46,28 @@ const Operate = (operator, num1, num2) => {
         : "ERROR";
 }
 
-function EqualButtonPressed() { //// print out the first term if there is no operator or second term
-                                //// syntax error if dividing by 0 (put this in operate)
-                                //// syntax error if pressed after operator button without second term
-    term2 = displayValue;
-    displayValue = Operate(operator, term1, term2);
+function EqualButtonPressed() {
+    if (operator === '') {
+        term1 = displayValue;
+        displayValue = Operate('+', term1, 0);
+    } else if (displayValue === null) {
+        displayValue = 'SYNTAX ERROR: NO SECOND TERM'
+    } else {
+        term2 = displayValue;
+        displayValue = Operate(operator, term1, term2);
+    }
     DisplayDisplayNumber();
     operator = '';
-    term1 = 0;
-    term2 = 0;
-    displayValue = 0;
+    term2 = null;
+    afterAnswer = true;
 }
 
 function Clear() {
     displayValue = 0;
     term1 = 0;
-    term2 = 0;
+    term2 = null;
     operator = '';
+    afterAnswer = false;
     DisplayDisplayNumber();
 }
 
@@ -70,12 +76,16 @@ function ChangeOperator(op) {
         EqualButtonPressed();
     }
     term1 = displayValue;
-    displayValue = 0;
+    displayValue = null;
     operator = op;
     console.log(operator);
 }
 
 const AddDigitToDisplayNumber = (num) => {
+    if (afterAnswer || displayValue === null) {
+        displayValue = 0;
+        afterAnswer = false;
+    }
     displayValue *= 10;
     displayValue += num;
     DisplayDisplayNumber();
