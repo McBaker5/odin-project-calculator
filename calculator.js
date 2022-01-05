@@ -7,43 +7,48 @@ let afterAnswer = false;
 const display = document.querySelector('.display');
 const clearButton = document.getElementById('clear');
 const operatorButtonParent = document.querySelector('.operators');
-const numberButtonParent = document.querySelector('.numbers');
+const numberButtons = document.querySelectorAll('.number');
 const equalButton = document.getElementById('equals');
 clearButton.addEventListener('click', Clear);
 equalButton.addEventListener('click', EqualButtonPressed);
 operatorButtonParent.childNodes.forEach(child => {
     child.addEventListener('click', () => ChangeOperator(child.textContent));
 });
-numberButtonParent.childNodes.forEach(child => {
+numberButtons.forEach(child => {
     child.addEventListener('click', () => AddDigitToDisplayNumber(+child.textContent));
 });
 
 const Add = (a, b) => {
-    console.log(a + "  +  " + b);
     return a + b;
 }
 const Subtract = (a, b) => {
-    console.log(a + "  -  " + b);
     return a - b;
 }
 const Multiply = (a, b) => {
-    console.log(a + "  *  " + b);
     return a * b;
 }
 const Divide = (a, b) => {
-    console.log(a + "  /  " + b);
     if (b === 0 && a != 0) {
-        return 'ERROR: CANNOT DIVIDE BY ZERO';
+        return 'DIVISION OVER ZERO';
     }
-    return (Math.round((a / b) * 100))/100;
+    return a / b;
 }
 
 const Operate = (operator, num1, num2) => {
-    return operator === '+' ? Add(num1, num2)
-        : operator === '-' ? Subtract(num1, num2)
-        : operator === '*' ? Multiply(num1, num2)
-        : operator === '/' ? Divide(num1, num2)
-        : "ERROR";
+    let ret;
+    if (operator === '+') {
+        ret = Add(num1, num2)
+    } else if (operator === '-') {
+        ret = Subtract(num1, num2)
+    } else if (operator === '*') {
+        ret = Multiply(num1, num2)
+    } else if (operator === '/') {
+        ret = Divide(num1, num2)
+    } else {
+        return "ERROR";
+    }
+
+    return (Math.round(ret * 100))/100;
 }
 
 function EqualButtonPressed() {
@@ -51,7 +56,7 @@ function EqualButtonPressed() {
         term1 = displayValue;
         displayValue = Operate('+', term1, 0);
     } else if (displayValue === null) {
-        displayValue = 'SYNTAX ERROR: NO SECOND TERM'
+        displayValue = 'SYNTAX ERROR'
     } else {
         term2 = displayValue;
         displayValue = Operate(operator, term1, term2);
@@ -78,7 +83,6 @@ function ChangeOperator(op) {
     term1 = displayValue;
     displayValue = null;
     operator = op;
-    console.log(operator);
 }
 
 const AddDigitToDisplayNumber = (num) => {

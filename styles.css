@@ -1,22 +1,60 @@
-* {
-    border-style: solid;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .calculator {
-    height: 800px;
-    width: 500px;
+    border-style: solid;
+    margin-top: 50px;
 }
 
-.numbers {
-    display: flex;;
+.display {
+    font-size: 40px;
+    overflow: hidden;
+    text-align: right;
+    border-style: dotted;
+    width: 302px;
 }
 
-.numbers * {
-    display: table-cell;
+.button {
     height: 50px;
     width: 50px;
-    background-color: pink;
     text-align: center;
     vertical-align: middle;
     line-height: 50px;
+    border-style: solid;
 }
+
+.number {
+    background-color: pink;
+    height: 78px;
+    width: 78px;
+    line-height: 78px;
+}
+
+.operators * {
+    background-color: orange;
+}
+
+#clear {
+    background-color: lightgray;
+}
+
+#equals {
+    background-color: lightblue;
+}
+
+.number-row {
+    display: flex;
+}
+
+.functions {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons {
+    display: flex;
+}
+
